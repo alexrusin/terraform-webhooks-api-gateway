@@ -19,7 +19,7 @@ data "aws_iam_policy_document" "api_gateway" {
     }
 
     actions   = ["sqs:SendMessage"]
-    resources = [aws_sqs_queue.shopify_queue.arn]
+    resources = [aws_sqs_queue.webhooks_queue.arn]
   }
 }
 
@@ -29,7 +29,8 @@ resource "aws_sqs_queue_policy" "api_gateway_policy" {
 }
 
 resource "aws_sqs_queue" "webhooks_dlq" {
-  name = "${var.project_namespace}-sqs-webhooks-${var.environment}"
+  name                      = "${var.project_namespace}-sqs-webhooks-dlq-${var.environment}"
+  message_retention_seconds = 1209600 // 14 days
   redrive_allow_policy = jsonencode({
     redrivePermission = "byQueue",
     sourceQueueArns   = [aws_sqs_queue.webhooks_queue.arn]

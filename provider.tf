@@ -7,8 +7,8 @@ terraform {
     }
   }
   backend "s3" {
-    bucket = "alex-terraforms"
-    key    = "terraform-api-gateway/backend"
+    bucket = "alex-terraform-backends"
+    key    = "terraform-api-gateway"
     // should always be us-west-2
     region = "us-west-2"
   }

@@ -21,4 +21,11 @@ module "lambda" {
   project_namespace  = var.project_namespace
   environment        = var.environment
   webhooks_queue_arn = module.queues.webhooks_queue_arn
+  bucket_name        = local.bucket_name
+  region             = var.region
+}
+
+module "s3-webhooks-bucket" {
+  source = "./modules/s3-bucket"
+  name   = local.bucket_name
 }

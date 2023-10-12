@@ -9,7 +9,7 @@ module "lambda-execution-role-policy-attachment" {
   source = "../role-policy-attachment"
 
   role_name   = module.lambda-execution-role.name
-  for_each    = toset(["AWSLambdaBasicExecutionRole", "AWSLambdaSQSQueueExecutionRole"])
+  for_each    = toset(["AWSLambdaBasicExecutionRole", "AWSLambdaSQSQueueExecutionRole", "AmazonS3FullAccess"])
   policy_name = each.key
 }
 
@@ -29,8 +29,14 @@ resource "aws_lambda_function" "webhooks_lambda" {
 
   role = module.lambda-execution-role.arn
 
-  timeout                        = 120
-  reserved_concurrent_executions = 5
+  timeout = 120
+
+  environment {
+    variables = {
+      BUCKET = var.bucket_name
+      REGION = var.region
+    }
+  }
 
   lifecycle {
     ignore_changes = [

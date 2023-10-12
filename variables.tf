@@ -14,6 +14,5 @@ variable "project_namespace" {
 }
 
 variable "account_id" {
-  type    = string
-  default = "994474752556"
+  type = string
 }

@@ -63,8 +63,12 @@ resource "aws_apigatewayv2_integration" "sqs_integration" {
         StringValue = "$${request.header.x-topic}"
       }
       hmac = {
-        DataType    = "String",
+        DataType    = "String"
         StringValue = "$${request.header.x-hmac}"
+      }
+      webook-id = {
+        DataType    = "String"
+        StringValue = "$${request.header.x-webhook-id}"
       }
     })
   }
